@@ -8,7 +8,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class Api(val apiKey: String, val apiSig: String) {
+class Api(val apiKey: String) {
     companion object {
         val TAG = DPLog.createTag("API")
         val BASE_URL = "https://api.flickr.com/services/rest/"
@@ -16,7 +16,7 @@ class Api(val apiKey: String, val apiSig: String) {
     }
 
     fun requestPhotos(query: String, page: Int): List<Photo>? {
-        val url = "$BASE_URL?method=flickr.photos.search&api_key=$apiKey&tags=$query&per_page=$SEARCH_PAGE_SIZE&page=$page&format=json&nojsoncallback=1&api_sig=$apiSig"
+        val url = "$BASE_URL?method=flickr.photos.search&api_key=$apiKey&tags=$query&per_page=$SEARCH_PAGE_SIZE&page=$page&format=json&nojsoncallback=1"
         val stream = get(URL(url))
 
         return if (stream.isNotEmpty()) FlickrParser().parseSearchResults(stream) else null
