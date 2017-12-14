@@ -12,7 +12,7 @@ class Api(val apiKey: String) {
     companion object {
         val TAG = DPLog.createTag("API")
         val BASE_URL = "https://api.flickr.com/services/rest/"
-        val SEARCH_PAGE_SIZE = 10
+        val SEARCH_PAGE_SIZE = 20
     }
 
     fun requestPhotos(query: String, page: Int): List<Photo>? {

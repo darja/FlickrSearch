@@ -4,5 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 >
+    <!-- Search query -->
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:id="@+id/query"
+              android:inputType="textAutoComplete"
+              android:imeOptions="actionSearch"
+              android:layout_margin="@dimen/default_padding"
+    />
 
+    <!-- Search result -->
+    <GridView android:layout_width="match_parent" android:layout_height="match_parent"
+              android:id="@+id/results"
+              android:layout_below="@id/query"
+              android:numColumns="3"
+    />
 </RelativeLayout>
