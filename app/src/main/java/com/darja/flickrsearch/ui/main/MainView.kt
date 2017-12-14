@@ -1,9 +1,11 @@
 package com.darja.flickrsearch.ui.main
 
 import android.app.Activity
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridView
+import android.widget.ProgressBar
 import com.darja.flickrsearch.R
 import com.darja.flickrsearch.model.Photo
 import com.darja.flickrsearch.ui.adapter.SearchResultsAdapter
@@ -11,6 +13,7 @@ import com.darja.flickrsearch.ui.adapter.SearchResultsAdapter
 class MainView(activity: Activity) {
     val query = activity.findViewById<EditText>(R.id.query)
     val grid = activity.findViewById<GridView>(R.id.results)
+    val progress = activity.findViewById<ProgressBar>(R.id.progress)
 
     var callbacks: Callbacks? = null
 
@@ -29,6 +32,14 @@ class MainView(activity: Activity) {
         if (items != null) {
             grid.adapter = SearchResultsAdapter(items)
         }
+    }
+
+    fun showProgress() {
+        progress.visibility = View.VISIBLE
+    }
+
+    fun hideProgress() {
+        progress.visibility = View.GONE
     }
 
     fun getQueryString(): String {

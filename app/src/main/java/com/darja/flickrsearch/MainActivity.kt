@@ -30,12 +30,16 @@ class MainActivity : Activity(), MainView.Callbacks {
     }
 
     private fun loadPhotos() {
+        view.showProgress()
         Thread(Runnable {
             val photos = api.requestPhotos(model.query, model.page)
             photos?.forEach { DPLog.vt(Api.TAG, it.url) }
             model.photos = photos
 
-            runOnUiThread({ view.showResults(photos) })
+            runOnUiThread({
+                view.showResults(photos)
+                view.hideProgress()
+            })
         }).start()
     }
 
