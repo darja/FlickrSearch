@@ -1,6 +1,5 @@
-package com.darja.flickrsearch.ui.main
+package com.darja.flickrsearch.ui.search
 
-import android.app.Activity
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -10,10 +9,10 @@ import com.darja.flickrsearch.R
 import com.darja.flickrsearch.model.Photo
 import com.darja.flickrsearch.ui.adapter.SearchResultsAdapter
 
-class MainView(activity: Activity) {
-    val query = activity.findViewById<EditText>(R.id.query)
-    val grid = activity.findViewById<GridView>(R.id.results)
-    val progress = activity.findViewById<ProgressBar>(R.id.progress)
+class SearchView(view: View) {
+    private val query = view.findViewById<EditText>(R.id.query)
+    private val grid = view.findViewById<GridView>(R.id.results)
+    private val progress = view.findViewById<ProgressBar>(R.id.progress)
 
     var callbacks: Callbacks? = null
 

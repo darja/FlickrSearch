@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+    <!-- Search query -->
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:id="@+id/query"
+              android:inputType="textAutoComplete"
+              android:imeOptions="actionSearch"
+              android:layout_margin="@dimen/default_padding"
+              android:hint="@string/search"
+              />
+
+    <!-- Progress -->
+    <ProgressBar android:layout_width="30dp" android:layout_height="30dp"
+                 android:layout_alignEnd="@id/query"
+                 android:id="@+id/progress"
+                 android:padding="@dimen/small_padding"
+                 android:visibility="gone"
+    />
+
+    <!-- Search result -->
+    <GridView android:layout_width="match_parent" android:layout_height="match_parent"
+              android:id="@+id/results"
+              android:layout_below="@id/query"
+              android:numColumns="3"
+              android:horizontalSpacing="@dimen/small_padding"
+              android:verticalSpacing="@dimen/small_padding"
+    />
+</RelativeLayout>
