@@ -2,7 +2,7 @@ package com.darja.flickrsearch.ui.search
 
 import com.darja.flickrsearch.model.Photo
 
-class SearchModel {
+internal class SearchModel {
     var photos: List<Photo>? = null
     var page: Int = 0
     private var queryString: String = ""

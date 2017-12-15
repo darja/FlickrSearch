@@ -9,7 +9,7 @@ import com.darja.flickrsearch.R
 import com.darja.flickrsearch.model.Photo
 import com.darja.flickrsearch.ui.adapter.SearchResultsAdapter
 
-class SearchView(view: View) {
+internal class SearchView(view: View) {
     private val query = view.findViewById<EditText>(R.id.query)
     private val grid = view.findViewById<GridView>(R.id.results)
     private val progress = view.findViewById<ProgressBar>(R.id.progress)
