@@ -1,11 +1,13 @@
 package com.darja.flickrsearch.ui.search;
 
+import android.text.InputFilter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.model.Photo;
+import com.darja.flickrsearch.util.TrimInputFilter;
 
 import java.util.List;
 
@@ -44,6 +46,10 @@ class SearchFragmentView {
                 }
                 return false;
             }
+        });
+
+        mQuery.setFilters(new InputFilter[]{
+            new TrimInputFilter()
         });
 
         mGrid.setOnScrollListener(new AbsListView.OnScrollListener() {
