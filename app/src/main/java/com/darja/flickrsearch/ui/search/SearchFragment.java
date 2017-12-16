@@ -82,4 +82,12 @@ public class SearchFragment extends Fragment implements SearchFragmentView.Callb
             loadPhotos();
         }
     }
+
+
+    @Override
+    public void onScrolled(int lastVisibleItem, int totalItemsCount) {
+        if (lastVisibleItem > totalItemsCount - 10) {
+            // todo load more photos
+        }
+    }
 }

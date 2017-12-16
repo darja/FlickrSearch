@@ -3,10 +3,7 @@ package com.darja.flickrsearch.ui.search;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.model.Photo;
 
@@ -48,15 +45,25 @@ class SearchFragmentView {
                 return false;
             }
         });
+
+        mGrid.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem,
+                                 int visibleItemsCount, int totalItemsCount) {
+                if (mCallbacks != null) {
+                    mCallbacks.onScrolled(firstVisibleItem + visibleItemsCount,
+                        totalItemsCount);
+                }
+            }
+        });
     }
 
     void showResults(List<Photo> items) {
-        if (items != null) {
-            mGridAdapter.setPhotos(items);
-        }
-    }
-
-    void updateResults(List<Photo> items) {
         if (items != null) {
             mGridAdapter.setPhotos(items);
         }
@@ -76,7 +83,6 @@ class SearchFragmentView {
 
     interface Callbacks {
         void onNewSearch();
+        void onScrolled(int lastVisibleItem, int totalItemsCount);
     }
-
-
 }
