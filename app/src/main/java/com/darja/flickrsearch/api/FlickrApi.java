@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.List;
 
 public class FlickrApi {
-    private static final String TAG = DPLog.createTag("API");
+    public static final String TAG = DPLog.createTag("API");
     private static final String BASE_URL = "https://api.flickr.com/services/rest/";
     private static final int SEARCH_PAGE_SIZE = 30;
 
@@ -22,7 +22,7 @@ public class FlickrApi {
         mApiKey = apiKey;
     }
 
-    List<Photo> requestPhotos(String query, int page) {
+    public List<Photo> requestPhotos(String query, int page) {
         String url = String.format("%s?method=flickr.photos.search&api_key=%s&tags=%s&per_page=%s&page=%s&format=json&nojsoncallback=1",
             BASE_URL, mApiKey, query, SEARCH_PAGE_SIZE, page);
         try {
