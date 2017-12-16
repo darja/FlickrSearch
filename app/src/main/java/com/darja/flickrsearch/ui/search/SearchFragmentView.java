@@ -13,35 +13,35 @@ import com.darja.flickrsearch.model.Photo;
 import java.util.List;
 
 class SearchFragmentView {
-    private EditText query;
-    private GridView grid;
-    private ProgressBar progress;
+    private EditText mQuery;
+    private GridView mGrid;
+    private ProgressBar mProgress;
 
-    private SearchResultsAdapter gridAdapter = new SearchResultsAdapter();
+    private SearchResultsAdapter mGridAdapter = new SearchResultsAdapter();
 
-    Callbacks callbacks;
+    private Callbacks mCallbacks;
 
     SearchFragmentView(View view) {
-        query = view.findViewById(R.id.query);
-        grid = view.findViewById(R.id.results);
-        progress = view.findViewById(R.id.progress);
+        mQuery = view.findViewById(R.id.query);
+        mGrid = view.findViewById(R.id.results);
+        mProgress = view.findViewById(R.id.progress);
 
-        grid.setAdapter(gridAdapter);
+        mGrid.setAdapter(mGridAdapter);
 
         setupEvents();
     }
 
-    public void setCallbacks(Callbacks callbacks) {
-        this.callbacks = callbacks;
+    void setCallbacks(Callbacks callbacks) {
+        this.mCallbacks = callbacks;
     }
 
-    void setupEvents() {
-        query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+    private void setupEvents() {
+        mQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (callbacks != null) {
-                        callbacks.onNewSearch();
+                    if (mCallbacks != null) {
+                        mCallbacks.onNewSearch();
                     }
                     return true;
                 }
@@ -52,26 +52,26 @@ class SearchFragmentView {
 
     void showResults(List<Photo> items) {
         if (items != null) {
-            gridAdapter.setItems(items);
+            mGridAdapter.setPhotos(items);
         }
     }
 
     void updateResults(List<Photo> items) {
         if (items != null) {
-            gridAdapter.setItems(items);
+            mGridAdapter.setPhotos(items);
         }
     }
 
     void showProgress() {
-        progress.setVisibility(View.VISIBLE);
+        mProgress.setVisibility(View.VISIBLE);
     }
 
     void hideProgress() {
-        progress.setVisibility(View.GONE);
+        mProgress.setVisibility(View.GONE);
     }
 
     String getQueryString() {
-        return query.getText().toString().trim();
+        return mQuery.getText().toString().trim();
     }
 
     interface Callbacks {

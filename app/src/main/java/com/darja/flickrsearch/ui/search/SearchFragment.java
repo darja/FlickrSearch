@@ -14,10 +14,10 @@ import com.darja.flickrsearch.util.DPLog;
 import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchFragmentView.Callbacks {
-    private FlickrApi api;
+    private FlickrApi mApi;
 
-    private SearchFragmentView view;
-    private SearchFragmentModel model;
+    private SearchFragmentView mView;
+    private SearchFragmentModel mModel;
 
     @Nullable
     @Override
@@ -30,41 +30,42 @@ public class SearchFragment extends Fragment implements SearchFragmentView.Callb
         super.onViewCreated(rootView, savedInstanceState);
         setRetainInstance(true);
 
-        api = new FlickrApi(getString(R.string.api_key));
+        mApi = new FlickrApi(getString(R.string.api_key));
 
         if (rootView != null) {
-            view = new SearchFragmentView(rootView);
-            view.callbacks = this;
+            mView = new SearchFragmentView(rootView);
+            mView.setCallbacks(this);
         }
 
-        model = new SearchFragmentModel();
+        mModel = new SearchFragmentModel();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        view.callbacks = null;
+        mView.setCallbacks(null);
     }
 
     private void loadPhotos() {
-        view.showProgress();
+        mView.showProgress();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final List<Photo> photos = api.requestPhotos(model.getQuery(), model.getPage());
+                final List<Photo> photos = mApi.requestPhotos(mModel.getQuery(), mModel.getPage());
                 for (Photo p : photos) {
                     DPLog.vt(FlickrApi.TAG, p.getImageUrl());
 
                 }
-                model.setPhotos(photos);
+                mModel.setPhotos(photos);
 
                 if (isAdded()) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             if (isAdded()) {
-                                view.showResults(photos);
-                                view.hideProgress();
+                                mView.showResults(photos);
+                                mView.hideProgress();
                             }
                         }
                     });
@@ -75,9 +76,9 @@ public class SearchFragment extends Fragment implements SearchFragmentView.Callb
 
     @Override
     public void onNewSearch() {
-        String query = view.getQueryString();
-        if (model.isQueryChanged(query)) {
-            model.setQuery(query);
+        String query = mView.getQueryString();
+        if (mModel.isQueryChanged(query)) {
+            mModel.setQuery(query);
             loadPhotos();
         }
     }

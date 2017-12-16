@@ -12,21 +12,21 @@ import com.darja.flickrsearch.model.Photo;
 import java.util.List;
 
 public class SearchResultsAdapter extends BaseAdapter {
-    List<Photo> items;
+    private List<Photo> mPhotos;
 
-    public void setItems(List<Photo> items) {
-        this.items = items;
+    void setPhotos(List<Photo> photos) {
+        this.mPhotos = photos;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return items == null ? 0 : items.size();
+        return mPhotos == null ? 0 : mPhotos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return items.get(position);
+        return mPhotos.get(position);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class SearchResultsAdapter extends BaseAdapter {
             view = (ImageView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_search_result, parent, false);
         }
-        Glide.with(view).load(items.get(position).getImageUrl()).into(view);
+        Glide.with(view).load(mPhotos.get(position).getImageUrl()).into(view);
 
         return view;
     }
