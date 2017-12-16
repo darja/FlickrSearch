@@ -14,8 +14,10 @@
               />
 
     <!-- Progress -->
-    <ProgressBar android:layout_width="30dp" android:layout_height="30dp"
+    <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
                  android:layout_alignEnd="@id/query"
+                 android:layout_alignTop="@id/query"
+                 android:layout_alignBottom="@id/query"
                  android:id="@+id/progress"
                  android:padding="@dimen/small_padding"
                  android:visibility="gone"
