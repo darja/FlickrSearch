@@ -93,6 +93,10 @@ class SearchFragmentView {
         return mQuery.getText().toString().trim();
     }
 
+    void scrollResultsToBeginning() {
+        mGrid.scrollTo(0, 0);
+    }
+
     interface Callbacks {
         void onNewSearch();
         void onScrolled(int lastVisibleItem, int totalItemsCount);

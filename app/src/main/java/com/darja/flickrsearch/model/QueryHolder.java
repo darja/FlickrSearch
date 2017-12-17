@@ -5,17 +5,17 @@ public class QueryHolder {
     private int mPage;
 
     public QueryHolder(String query) {
+        this(query, 0);
+    }
+
+    public QueryHolder(String query, int page) {
         mQuery = query;
-        mPage = 0;
+        mPage = page;
     }
 
     public void setQuery(String query) {
         mQuery = query;
         mPage = 0;
-    }
-
-    public void setPage(int page) {
-        mPage = page;
     }
 
     public String getQuery() {
@@ -24,5 +24,9 @@ public class QueryHolder {
 
     public int getPage() {
         return mPage;
+    }
+
+    public void incPage() {
+        mPage++;
     }
 }

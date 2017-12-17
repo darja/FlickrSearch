@@ -8,6 +8,7 @@ class SearchFragmentModel {
     private List<Photo> mPhotos;
     private int mPage = 0;
     private String mQuery = "";
+    private boolean mIsLoading = false;
 
     String getQuery() {
         return mQuery;
@@ -17,12 +18,20 @@ class SearchFragmentModel {
         return mPage;
     }
 
-    public List<Photo> getPhotos() {
+    void setPage(int page) {
+        mPage = page;
+    }
+
+    List<Photo> getPhotos() {
         return mPhotos;
     }
 
     void setPhotos(List<Photo> photos) {
         mPhotos = photos;
+    }
+
+    void appendPhotos(List<Photo> photos) {
+        mPhotos.addAll(photos);
     }
 
     void setQuery(String query) {
@@ -32,5 +41,17 @@ class SearchFragmentModel {
 
     boolean isQueryChanged(String query) {
         return mQuery == null ||!mQuery.equalsIgnoreCase(query);
+    }
+
+    boolean isLoading() {
+        return mIsLoading;
+    }
+
+    void setLoading(boolean loading) {
+        mIsLoading = loading;
+    }
+
+    boolean isLastQuery(String query) {
+        return mQuery.equalsIgnoreCase(query);
     }
 }

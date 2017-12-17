@@ -9,6 +9,7 @@ import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.api.FlickrApi;
 import com.darja.flickrsearch.model.Photo;
 import com.darja.flickrsearch.model.QueryHolder;
+import com.darja.flickrsearch.util.DPLog;
 
 import java.util.List;
 
@@ -49,9 +50,23 @@ public class SearchFragment extends Fragment implements
     }
 
     private void loadPhotos() {
-        mView.showProgress();
+        DPLog.checkpoint();
 
-        LoadPhotosListTask loadPhotosListTask = new LoadPhotosListTask(mApi, this, new QueryHolder(mModel.getQuery()));
+        mView.showProgress();
+        mModel.setLoading(true);
+
+        LoadPhotosListTask loadPhotosListTask = new LoadPhotosListTask(mApi, this,
+            new QueryHolder(mModel.getQuery(), mModel.getPage()));
+        loadPhotosListTask.execute();
+    }
+
+    private void loadMorePhotos() {
+        DPLog.checkpoint();
+
+        mModel.setLoading(true);
+
+        LoadPhotosListTask loadPhotosListTask = new LoadPhotosListTask(mApi, this,
+            new QueryHolder(mModel.getQuery(), mModel.getPage() + 1));
         loadPhotosListTask.execute();
     }
 
@@ -66,23 +81,41 @@ public class SearchFragment extends Fragment implements
 
     @Override
     public void onScrolled(int lastVisibleItem, int totalItemsCount) {
-        if (lastVisibleItem > totalItemsCount - 10) {
-            // todo load more photos
+        if (lastVisibleItem > totalItemsCount - 15) {
+            if (!mModel.isLoading()) {
+                DPLog.i("Scrolled to [%s] of [%s], should load more", lastVisibleItem, totalItemsCount);
+                loadMorePhotos();
+            }
         }
     }
 
     @Override
-    public void onPhotosLoaded(QueryHolder queryHolder, List<Photo> photos) {
+    public void onPhotosLoaded(QueryHolder query, List<Photo> photos) {
         if (isAdded()) {
-            mModel.setPhotos(photos);
-            int emptyResId = 0;
-            if (photos == null) {
-                emptyResId = R.string.error_cannot_reach_server;
-            } else if (photos.size() == 0) {
-                emptyResId = R.string.nothing_found;
+            if (!mModel.isLastQuery(query.getQuery())) {
+                return;
             }
 
-            mView.showResults(photos, emptyResId);
+            int emptyResId = 0;
+            if (query.getPage() > 0) {
+                mModel.appendPhotos(photos);
+            } else {
+                mModel.setPhotos(photos);
+                if (photos == null) {
+                    emptyResId = R.string.error_cannot_reach_server;
+                } else if (photos.size() == 0) {
+                    emptyResId = R.string.nothing_found;
+                }
+            }
+
+            mModel.setPage(query.getPage());
+            mModel.setLoading(false);
+
+            mView.showResults(mModel.getPhotos(), emptyResId);
+            if (query.getPage() == 0) {
+                mView.scrollResultsToBeginning();
+            }
+
             mView.hideProgress();
         }
     }
