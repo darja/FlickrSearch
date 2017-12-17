@@ -2,9 +2,11 @@ package com.darja.flickrsearch.ui.search;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.api.FlickrApi;
 import com.darja.flickrsearch.model.Photo;
@@ -73,7 +75,10 @@ public class SearchFragment extends Fragment implements
     @Override
     public void onNewSearch() {
         String query = mView.getQueryString();
-        if (mModel.isQueryChanged(query)) {
+        if (TextUtils.isEmpty(query)) {
+            Toast.makeText(getActivity(), R.string.error_empty_query, Toast.LENGTH_SHORT).show();
+
+        } else if (mModel.isQueryChanged(query)) {
             mModel.setQuery(query);
             loadPhotos();
         }

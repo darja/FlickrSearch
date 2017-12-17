@@ -35,7 +35,7 @@
 
     <!-- Message for no results -->
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="@string/query_is_empty"
+              android:text="@string/search_invitation"
               android:layout_centerHorizontal="true"
               android:layout_below="@+id/query"
               android:layout_marginTop="@dimen/default_padding"
