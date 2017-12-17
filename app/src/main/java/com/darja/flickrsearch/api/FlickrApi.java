@@ -1,5 +1,6 @@
 package com.darja.flickrsearch.api;
 
+import android.net.Uri;
 import android.text.TextUtils;
 import com.darja.flickrsearch.model.PhotosPage;
 import com.darja.flickrsearch.util.DPLog;
@@ -25,7 +26,7 @@ public class FlickrApi {
 
     public PhotosPage requestPhotos(String query, int page) {
         String url = String.format("%s?method=flickr.photos.search&api_key=%s&tags=%s&per_page=%s&page=%s&format=json&nojsoncallback=1",
-            BASE_URL, mApiKey, query, SEARCH_PAGE_SIZE, page);
+            BASE_URL, mApiKey, Uri.encode(query), SEARCH_PAGE_SIZE, page);
         try {
             String response = get(new URL(url));
             if (!TextUtils.isEmpty(response)) {
