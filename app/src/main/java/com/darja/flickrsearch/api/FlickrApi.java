@@ -25,7 +25,7 @@ public class FlickrApi {
     }
 
     public PhotosPage requestPhotos(String query, int page) {
-        String url = String.format("%s?method=flickr.photos.search&api_key=%s&tags=%s&per_page=%s&page=%s&format=json&nojsoncallback=1",
+        String url = String.format("%s?method=flickr.photos.search&api_key=%s&text=%s&per_page=%s&page=%s&format=json&nojsoncallback=1",
             BASE_URL, mApiKey, Uri.encode(query), SEARCH_PAGE_SIZE, page);
         try {
             String response = get(new URL(url));
