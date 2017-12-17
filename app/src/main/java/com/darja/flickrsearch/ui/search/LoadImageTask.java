@@ -31,7 +31,6 @@ class LoadImageTask extends AsyncTask<Void, Void, BitmapDrawable> {
         if (cache != null) {
             BitmapDrawable cached = cache.get(mUrl);
             if (cached != null) {
-                DPLog.d("Image is cached: [%s]", mUrl);
                 return cached;
             }
         }

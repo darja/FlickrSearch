@@ -99,7 +99,7 @@ class SearchFragmentView {
     }
 
     void scrollResultsToBeginning() {
-        mGrid.scrollTo(0, 0);
+        mGrid.smoothScrollToPosition(0);
     }
 
     void hideKeyboard(Activity activity) {
