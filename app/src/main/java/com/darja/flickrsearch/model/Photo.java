@@ -23,7 +23,7 @@ public class Photo {
     }
 
     public String getImageUrl() {
-        return String.format("https://farm%s.staticflickr.com/%s/%s_%s.jpg",
+        return String.format("https://farm%s.staticflickr.com/%s/%s_%s_z.jpg",
             mFarm, mServer, mId, mSecret);
     }
 }
