@@ -76,7 +76,7 @@ public class SearchFragment extends Fragment implements
         if (TextUtils.isEmpty(query)) {
             Toast.makeText(getActivity(), R.string.error_empty_query, Toast.LENGTH_SHORT).show();
 
-        } else if (mModel.isQueryChanged(query)) {
+        } else if (mModel.isQueryChanged(query) || mModel.getPhotos() == null || mModel.getPhotos().isEmpty()) {
             mView.hideKeyboard(getActivity());
             mModel.setQuery(query);
             loadPhotos();
