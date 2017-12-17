@@ -5,7 +5,7 @@ public class QueryHolder {
     private int mPage;
 
     public QueryHolder(String query) {
-        this(query, 0);
+        this(query, 1);
     }
 
     public QueryHolder(String query, int page) {
@@ -15,7 +15,7 @@ public class QueryHolder {
 
     public void setQuery(String query) {
         mQuery = query;
-        mPage = 0;
+        mPage = 1;
     }
 
     public String getQuery() {

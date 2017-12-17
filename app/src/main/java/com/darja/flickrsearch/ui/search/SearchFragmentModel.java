@@ -6,7 +6,7 @@ import java.util.List;
 
 class SearchFragmentModel {
     private List<Photo> mPhotos;
-    private int mPage = 0;
+    private int mPage = 1;
     private String mQuery = "";
     private boolean mIsLoading = false;
 

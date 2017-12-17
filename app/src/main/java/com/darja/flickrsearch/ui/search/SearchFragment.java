@@ -97,7 +97,7 @@ public class SearchFragment extends Fragment implements
             }
 
             int emptyResId = 0;
-            if (query.getPage() > 0) {
+            if (query.getPage() > 1) {
                 mModel.appendPhotos(photos);
             } else {
                 mModel.setPhotos(photos);
@@ -112,7 +112,7 @@ public class SearchFragment extends Fragment implements
             mModel.setLoading(false);
 
             mView.showResults(mModel.getPhotos(), emptyResId);
-            if (query.getPage() == 0) {
+            if (query.getPage() == 1) {
                 mView.scrollResultsToBeginning();
             }
 
