@@ -11,10 +11,13 @@ import com.darja.flickrsearch.model.Photo;
 import com.darja.flickrsearch.util.ImagesCache;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SearchResultsAdapter extends BaseAdapter {
     private List<Photo> mPhotos;
     private ImagesCache mImagesCache;
+    private ExecutorService mExecutor = Executors.newFixedThreadPool(5);
 
     SearchResultsAdapter(Context context) {
         mImagesCache = new ImagesCache(context);
@@ -51,7 +54,7 @@ public class SearchResultsAdapter extends BaseAdapter {
         if (!url.equals(view.getTag())) {
             view.setImageBitmap(null);
             view.setTag(url);
-            new LoadImageTask(view, mImagesCache, url).execute();
+            new LoadImageTask(view, mImagesCache, url).executeOnExecutor(mExecutor);
         }
 
         return view;

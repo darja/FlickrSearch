@@ -17,7 +17,6 @@ public class ImagesCache extends LruCache<String, BitmapDrawable> {
         if (mgr != null) {
             cut = mgr.getMemoryClass() / 8;
         }
-        DPLog.dt(ImageUtil.TAG, "Recommended cache size: %s Mb", cut);
 
         return cut * 1024 * 1024;
     }
