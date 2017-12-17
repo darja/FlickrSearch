@@ -7,6 +7,7 @@ import java.util.List;
 class SearchFragmentModel {
     private List<Photo> mPhotos;
     private int mPage = 1;
+    private int mTotalPages = 1;
     private String mQuery = "";
     private boolean mIsLoading = false;
 
@@ -53,5 +54,13 @@ class SearchFragmentModel {
 
     boolean isLastQuery(String query) {
         return mQuery.equalsIgnoreCase(query);
+    }
+
+    void setTotalPages(int totalPages) {
+        mTotalPages = totalPages;
+    }
+
+    boolean canLoadMore() {
+        return mPage < mTotalPages;
     }
 }

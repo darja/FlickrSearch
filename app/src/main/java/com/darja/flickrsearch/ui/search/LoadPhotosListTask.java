@@ -2,13 +2,12 @@ package com.darja.flickrsearch.ui.search;
 
 import android.os.AsyncTask;
 import com.darja.flickrsearch.api.FlickrApi;
-import com.darja.flickrsearch.model.Photo;
+import com.darja.flickrsearch.model.PhotosPage;
 import com.darja.flickrsearch.model.QueryHolder;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
-public class LoadPhotosListTask extends AsyncTask<Void, Void, List<Photo>> {
+public class LoadPhotosListTask extends AsyncTask<Void, Void, PhotosPage> {
     private final FlickrApi mApi;
     private final WeakReference<OnPhotosLoadedCallback> mCallback;
     private final QueryHolder mQuery;
@@ -20,12 +19,12 @@ public class LoadPhotosListTask extends AsyncTask<Void, Void, List<Photo>> {
     }
 
     @Override
-    protected List<Photo> doInBackground(Void... params) {
+    protected PhotosPage doInBackground(Void... params) {
         return mApi.requestPhotos(mQuery.getQuery(), mQuery.getPage());
     }
 
     @Override
-    protected void onPostExecute(List<Photo> result) {
+    protected void onPostExecute(PhotosPage result) {
         super.onPostExecute(result);
         OnPhotosLoadedCallback callback = mCallback.get();
         if (callback != null) {
@@ -34,6 +33,6 @@ public class LoadPhotosListTask extends AsyncTask<Void, Void, List<Photo>> {
     }
 
     interface OnPhotosLoadedCallback {
-        void onPhotosLoaded(QueryHolder queryHolder, List<Photo> photos);
+        void onPhotosLoaded(QueryHolder queryHolder, PhotosPage photosPage);
     }
 }

@@ -25,7 +25,6 @@ public class ImagesCache extends LruCache<String, BitmapDrawable> {
     protected int sizeOf(String key, BitmapDrawable value) {
         Bitmap bm = value.getBitmap();
         if (bm != null) {
-            DPLog.d("Url: [%s], bitmap size: [%s]", key, bm.getByteCount());
             return bm.getByteCount();
         }
         return 0;

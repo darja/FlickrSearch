@@ -1,15 +1,16 @@
 package com.darja.flickrsearch.api;
 
 import android.text.TextUtils;
-import com.darja.flickrsearch.model.Photo;
+import com.darja.flickrsearch.model.PhotosPage;
 import com.darja.flickrsearch.util.DPLog;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 public class FlickrApi {
     private static final String TAG = DPLog.createTag("API");
@@ -22,17 +23,20 @@ public class FlickrApi {
         mApiKey = apiKey;
     }
 
-    public List<Photo> requestPhotos(String query, int page) {
+    public PhotosPage requestPhotos(String query, int page) {
         String url = String.format("%s?method=flickr.photos.search&api_key=%s&tags=%s&per_page=%s&page=%s&format=json&nojsoncallback=1",
             BASE_URL, mApiKey, query, SEARCH_PAGE_SIZE, page);
         try {
             String response = get(new URL(url));
             if (!TextUtils.isEmpty(response)) {
-                return FlickrParser.parseSearchResults(response);
+                try {
+                    return new PhotosPage(new JSONObject(response).getJSONObject("photos"));
+                } catch (JSONException e) {
+                    DPLog.e(e);
+                }
             }
         } catch (IOException e) {
             DPLog.e(e);
-            // todo handle request or parsing error
         }
 
         return null;

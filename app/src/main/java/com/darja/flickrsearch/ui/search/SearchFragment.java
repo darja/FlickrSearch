@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.api.FlickrApi;
-import com.darja.flickrsearch.model.Photo;
+import com.darja.flickrsearch.model.PhotosPage;
 import com.darja.flickrsearch.model.QueryHolder;
 import com.darja.flickrsearch.util.DPLog;
-
-import java.util.List;
 
 public class SearchFragment extends Fragment implements
     SearchFragmentView.Callbacks,
@@ -88,7 +86,7 @@ public class SearchFragment extends Fragment implements
     @Override
     public void onScrolled(int lastVisibleItem, int totalItemsCount) {
         if (lastVisibleItem > totalItemsCount - 15) {
-            if (!mModel.isLoading()) {
+            if (!mModel.isLoading() && mModel.canLoadMore()) {
                 DPLog.i("Scrolled to [%s] of [%s], should load more", lastVisibleItem, totalItemsCount);
                 loadMorePhotos();
             }
@@ -96,25 +94,33 @@ public class SearchFragment extends Fragment implements
     }
 
     @Override
-    public void onPhotosLoaded(QueryHolder query, List<Photo> photos) {
+    public void onPhotosLoaded(QueryHolder query, PhotosPage searchResult) {
         if (isAdded()) {
             if (!mModel.isLastQuery(query.getQuery())) {
                 return;
             }
 
             int emptyResId = 0;
-            if (query.getPage() > 1) {
-                mModel.appendPhotos(photos);
+            if (searchResult == null) {
+                if (query.getPage() <= 1) {
+                    mView.showResults(null, R.string.error_cannot_reach_server);
+                } else {
+                    Toast.makeText(getActivity(), R.string.error_cannot_reach_server, Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            if (searchResult.getPage() > 1) {
+                mModel.appendPhotos(searchResult.getPhotos());
             } else {
-                mModel.setPhotos(photos);
-                if (photos == null) {
-                    emptyResId = R.string.error_cannot_reach_server;
-                } else if (photos.size() == 0) {
+                if (searchResult.getPhotos().size() == 0) {
                     emptyResId = R.string.nothing_found;
                 }
+                mModel.setPhotos(searchResult.getPhotos());
             }
 
             mModel.setPage(query.getPage());
+            mModel.setTotalPages(searchResult.getTotalPages());
             mModel.setLoading(false);
 
             mView.showResults(mModel.getPhotos(), emptyResId);
