@@ -3,4 +3,8 @@
 
     <string name="api_key">e1c941e8246fe90ed33829d5779333d7</string>
     <string name="search">Search</string>
+
+    <string name="nothing_found">Nothing found</string>
+    <string name="error_cannot_reach_server">Cannot reach server</string>
+    <string name="query_is_empty">Try to search something</string>
 </resources>

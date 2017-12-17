@@ -30,5 +30,15 @@
               android:numColumns="3"
               android:horizontalSpacing="@dimen/small_padding"
               android:verticalSpacing="@dimen/small_padding"
+
+    />
+
+    <!-- Message for no results -->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="@string/query_is_empty"
+              android:layout_centerHorizontal="true"
+              android:layout_below="@+id/query"
+              android:layout_marginTop="@dimen/default_padding"
+              android:id="@+id/empty"
     />
 </RelativeLayout>

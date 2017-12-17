@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.api.FlickrApi;
 import com.darja.flickrsearch.model.Photo;
-import com.darja.flickrsearch.util.DPLog;
 
 import java.util.List;
 
@@ -53,10 +52,6 @@ public class SearchFragment extends Fragment implements SearchFragmentView.Callb
             @Override
             public void run() {
                 final List<Photo> photos = mApi.requestPhotos(mModel.getQuery(), mModel.getPage());
-                for (Photo p : photos) {
-                    DPLog.vt(FlickrApi.TAG, p.getImageUrl());
-
-                }
                 mModel.setPhotos(photos);
 
                 if (isAdded()) {
@@ -64,7 +59,14 @@ public class SearchFragment extends Fragment implements SearchFragmentView.Callb
                         @Override
                         public void run() {
                             if (isAdded()) {
-                                mView.showResults(photos);
+                                int emptyResId = 0;
+                                if (photos == null) {
+                                    emptyResId = R.string.error_cannot_reach_server;
+                                } else if (photos.size() == 0) {
+                                    emptyResId = R.string.nothing_found;
+                                }
+
+                                mView.showResults(photos, emptyResId);
                                 mView.hideProgress();
                             }
                         }

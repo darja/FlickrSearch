@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.List;
 
 public class FlickrApi {
-    public static final String TAG = DPLog.createTag("API");
+    private static final String TAG = DPLog.createTag("API");
     private static final String BASE_URL = "https://api.flickr.com/services/rest/";
     private static final int SEARCH_PAGE_SIZE = 30;
 
@@ -27,7 +27,7 @@ public class FlickrApi {
             BASE_URL, mApiKey, query, SEARCH_PAGE_SIZE, page);
         try {
             String response = get(new URL(url));
-            if (TextUtils.isEmpty(response)) {
+            if (!TextUtils.isEmpty(response)) {
                 return FlickrParser.parseSearchResults(response);
             }
         } catch (IOException e) {
@@ -58,7 +58,7 @@ public class FlickrApi {
             DPLog.dt(TAG, "Response: %s", response);
 
         } catch (Exception e ) {
-            DPLog.e(TAG);
+            DPLog.et(TAG, e);
         } finally {
             conn.disconnect();
         }

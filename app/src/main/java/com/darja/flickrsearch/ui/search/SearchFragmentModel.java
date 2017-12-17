@@ -21,11 +21,11 @@ class SearchFragmentModel {
         return mPhotos;
     }
 
-    public void setPhotos(List<Photo> photos) {
+    void setPhotos(List<Photo> photos) {
         mPhotos = photos;
     }
 
-    public void setQuery(String query) {
+    void setQuery(String query) {
         mQuery = query;
         mPage = 0;
     }

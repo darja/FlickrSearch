@@ -15,6 +15,7 @@ class SearchFragmentView {
     private EditText mQuery;
     private GridView mGrid;
     private ProgressBar mProgress;
+    private TextView mResultsEmptyView;
 
     private SearchResultsAdapter mGridAdapter = new SearchResultsAdapter();
 
@@ -24,8 +25,10 @@ class SearchFragmentView {
         mQuery = view.findViewById(R.id.query);
         mGrid = view.findViewById(R.id.results);
         mProgress = view.findViewById(R.id.progress);
+        mResultsEmptyView = view.findViewById(R.id.empty);
 
         mGrid.setAdapter(mGridAdapter);
+        mGrid.setEmptyView(mResultsEmptyView);
 
         setupEvents();
     }
@@ -69,9 +72,12 @@ class SearchFragmentView {
         });
     }
 
-    void showResults(List<Photo> items) {
+    void showResults(List<Photo> items, int emptyResId) {
         if (items != null) {
             mGridAdapter.setPhotos(items);
+        }
+        if (emptyResId != 0) {
+            mResultsEmptyView.setText(emptyResId);
         }
     }
 
