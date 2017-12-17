@@ -41,9 +41,11 @@ public class SearchResultsAdapter extends BaseAdapter {
                 .inflate(R.layout.item_search_result, parent, false);
         }
         String url = mPhotos.get(position).getImageUrl();
-        view.setImageBitmap(null);
-        view.setTag(url);
-        new LoadImageTask(view).execute(url);
+        if (!url.equals(view.getTag())) {
+            view.setImageBitmap(null);
+            view.setTag(url);
+            new LoadImageTask(view).execute(url);
+        }
 
         return view;
     }
