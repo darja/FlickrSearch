@@ -1,10 +1,12 @@
 package com.darja.flickrsearch.ui.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.InputFilter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.model.Photo;
@@ -98,6 +100,13 @@ class SearchFragmentView {
 
     void scrollResultsToBeginning() {
         mGrid.scrollTo(0, 0);
+    }
+
+    void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(mQuery.getWindowToken(), 0);
+        }
     }
 
     interface Callbacks {

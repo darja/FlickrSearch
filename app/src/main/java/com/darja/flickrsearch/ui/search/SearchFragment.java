@@ -79,6 +79,7 @@ public class SearchFragment extends Fragment implements
             Toast.makeText(getActivity(), R.string.error_empty_query, Toast.LENGTH_SHORT).show();
 
         } else if (mModel.isQueryChanged(query)) {
+            mView.hideKeyboard(getActivity());
             mModel.setQuery(query);
             loadPhotos();
         }
