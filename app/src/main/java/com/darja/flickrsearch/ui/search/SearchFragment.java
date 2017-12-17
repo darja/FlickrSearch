@@ -2,7 +2,6 @@ package com.darja.flickrsearch.ui.search;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +17,13 @@ public class SearchFragment extends Fragment implements SearchFragmentView.Callb
     private SearchFragmentView mView;
     private SearchFragmentModel mModel;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
     @Override
-    public void onViewCreated(View rootView, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View rootView, Bundle savedInstanceState) {
         super.onViewCreated(rootView, savedInstanceState);
         setRetainInstance(true);
 

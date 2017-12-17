@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import com.bumptech.glide.Glide;
 import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.model.Photo;
 
@@ -41,7 +40,10 @@ public class SearchResultsAdapter extends BaseAdapter {
             view = (ImageView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_search_result, parent, false);
         }
-        Glide.with(view).load(mPhotos.get(position).getImageUrl()).into(view);
+        String url = mPhotos.get(position).getImageUrl();
+        view.setImageBitmap(null);
+        view.setTag(url);
+        new LoadImageTask(view).execute(url);
 
         return view;
     }
