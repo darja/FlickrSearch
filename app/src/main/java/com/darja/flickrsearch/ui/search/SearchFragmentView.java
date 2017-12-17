@@ -1,5 +1,6 @@
 package com.darja.flickrsearch.ui.search;
 
+import android.content.Context;
 import android.text.InputFilter;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,15 +18,17 @@ class SearchFragmentView {
     private ProgressBar mProgress;
     private TextView mResultsEmptyView;
 
-    private SearchResultsAdapter mGridAdapter = new SearchResultsAdapter();
+    private SearchResultsAdapter mGridAdapter;
 
     private Callbacks mCallbacks;
 
-    SearchFragmentView(View view) {
+    SearchFragmentView(Context context, View view) {
         mQuery = view.findViewById(R.id.query);
         mGrid = view.findViewById(R.id.results);
         mProgress = view.findViewById(R.id.progress);
         mResultsEmptyView = view.findViewById(R.id.empty);
+
+        mGridAdapter = new SearchResultsAdapter(context);
 
         mGrid.setAdapter(mGridAdapter);
         mGrid.setEmptyView(mResultsEmptyView);

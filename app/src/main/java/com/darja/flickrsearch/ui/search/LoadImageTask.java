@@ -1,33 +1,52 @@
 package com.darja.flickrsearch.ui.search;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.util.Pair;
+import android.view.Gravity;
 import android.widget.ImageView;
 import com.darja.flickrsearch.util.DPLog;
+import com.darja.flickrsearch.util.ImageUtil;
+import com.darja.flickrsearch.util.ImagesCache;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
 
-class LoadImageTask extends AsyncTask<String, Void, Pair<String, Bitmap>> {
+class LoadImageTask extends AsyncTask<Void, Void, BitmapDrawable> {
     private final WeakReference<ImageView> mImageRef;
+    private final WeakReference<ImagesCache> mImagesCacheRef;
+    private final String mUrl;
 
-    LoadImageTask(ImageView mHolderRef) {
-        this.mImageRef = new WeakReference<>(mHolderRef);
+    LoadImageTask(ImageView mHolderRef, ImagesCache imagesCache, String url) {
+        mImageRef = new WeakReference<>(mHolderRef);
+        mImagesCacheRef = new WeakReference<>(imagesCache);
+        mUrl = url;
     }
 
     @Override
-    protected Pair<String, Bitmap> doInBackground(String... params) {
+    protected BitmapDrawable doInBackground(Void... params) {
+        ImagesCache cache = mImagesCacheRef.get();
+        if (cache != null) {
+            BitmapDrawable cached = cache.get(mUrl);
+            if (cached != null) {
+                DPLog.d("Image is cached: [%s]", mUrl);
+                return cached;
+            }
+        }
+
         try {
-            String url = params[0];
-            URLConnection conn = new URL(params[0]).openConnection();
+            URLConnection conn = new URL(mUrl).openConnection();
             conn.connect();
-            // todo decode options
-            Bitmap bitmap = BitmapFactory.decodeStream(conn.getInputStream());
-            return new Pair<>(url, bitmap);
+            Bitmap bitmap = ImageUtil.decodeBitmap(conn.getInputStream(), 200, 200);
+            BitmapDrawable drawable = new BitmapDrawable(bitmap);
+            drawable.setGravity(Gravity.FILL);
+            if (cache != null) {
+                cache.put(mUrl, drawable);
+            }
+            return drawable;
+
         } catch (IOException e) {
             DPLog.e(e);
         }
@@ -36,11 +55,17 @@ class LoadImageTask extends AsyncTask<String, Void, Pair<String, Bitmap>> {
     }
 
     @Override
-    protected void onPostExecute(Pair<String, Bitmap> result) {
+    protected void onPostExecute(BitmapDrawable result) {
         super.onPostExecute(result);
         ImageView imageView = mImageRef.get();
-        if (imageView != null && imageView.getTag().equals(result.first)) {
-            imageView.setImageBitmap(result.second);
+
+        if (imageView != null && imageView.getTag().equals(mUrl)) {
+            imageView.setImageDrawable(result);
+        }
+
+        ImagesCache cache = mImagesCacheRef.get();
+        if (cache != null) {
+            cache.put(mUrl, result);
         }
     }
 }

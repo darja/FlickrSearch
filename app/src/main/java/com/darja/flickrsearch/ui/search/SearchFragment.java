@@ -38,7 +38,7 @@ public class SearchFragment extends Fragment implements
         mApi = new FlickrApi(getString(R.string.api_key));
 
         if (rootView != null) {
-            mView = new SearchFragmentView(rootView);
+            mView = new SearchFragmentView(getActivity().getApplicationContext(), rootView);
             mView.setCallbacks(this);
         }
 

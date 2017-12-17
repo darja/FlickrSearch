@@ -36,7 +36,7 @@ class SearchFragmentModel {
 
     void setQuery(String query) {
         mQuery = query;
-        mPage = 0;
+        mPage = 1;
     }
 
     boolean isQueryChanged(String query) {

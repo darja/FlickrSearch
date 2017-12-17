@@ -1,5 +1,6 @@
 package com.darja.flickrsearch.ui.search;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,14 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.darja.flickrsearch.R;
 import com.darja.flickrsearch.model.Photo;
+import com.darja.flickrsearch.util.ImagesCache;
 
 import java.util.List;
 
 public class SearchResultsAdapter extends BaseAdapter {
     private List<Photo> mPhotos;
+    private ImagesCache mImagesCache;
+
+    SearchResultsAdapter(Context context) {
+        mImagesCache = new ImagesCache(context);
+    }
 
     void setPhotos(List<Photo> photos) {
-        this.mPhotos = photos;
+        mPhotos = photos;
         notifyDataSetChanged();
     }
 
@@ -44,7 +51,7 @@ public class SearchResultsAdapter extends BaseAdapter {
         if (!url.equals(view.getTag())) {
             view.setImageBitmap(null);
             view.setTag(url);
-            new LoadImageTask(view).execute(url);
+            new LoadImageTask(view, mImagesCache, url).execute();
         }
 
         return view;
